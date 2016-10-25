@@ -65,6 +65,15 @@ class LoginController: UIViewController {
         return tf
     }()
     
+    let profileImageView: UIImageView = {
+        let img = UIImageView()
+        img.image = UIImage(named: "default-profile")
+        img.translatesAutoresizingMaskIntoConstraints = false
+        img.layer.cornerRadius = 50
+        img.clipsToBounds = true
+        return img
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -72,11 +81,20 @@ class LoginController: UIViewController {
         
         // instantiate the input viewer
         view.addSubview(inputContainerView)
-        
         view.addSubview(loginRegisterButton)
+        view.addSubview(profileImageView)
         
         setupInputContainerView()
         setupLoginRegisterButton()
+        setupProfileImageView()
+    }
+    
+    func setupProfileImageView() {
+        // add constraint of profile image container - x, y, width and height
+        profileImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        profileImageView.bottomAnchor.constraint(equalTo: inputContainerView.topAnchor, constant: -12).isActive = true
+        profileImageView.widthAnchor.constraint(equalToConstant: 100).isActive = true
+        profileImageView.heightAnchor.constraint(equalToConstant: 100).isActive = true
     }
     
     func setupInputContainerView() {
