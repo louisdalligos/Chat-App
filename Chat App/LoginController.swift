@@ -36,7 +36,7 @@ class LoginController: UIViewController {
     
     
     func handleRegistration() {
-        guard let email = emailTextField.text, let password = passwordTextField.text else {
+        guard let email = emailTextField.text, let password = passwordTextField.text, let name = nameTextField.text else {
             print("Form is not valid")
             return
         }
@@ -48,6 +48,25 @@ class LoginController: UIViewController {
                 print("LOUIS: \(error)")
                 return
             }
+            
+            guard let uid = user?.uid else {
+                return
+            }
+            
+            // successfully authenticated user
+            let ref = FIRDatabase.database().reference(fromURL: "https://chat-app-65aed.firebaseio.com/")
+            let usersReference = ref.child("users").child(uid)
+            let values = ["name": name, "email": email]
+            usersReference.updateChildValues(values, withCompletionBlock: { (err, ref) in
+                
+                if err != nil {
+                    print("LOUIS: \(err)")
+                    return
+                }
+                
+                print("Saved user successfully in Firebase DB")
+            })
+            
         })
         
         
@@ -99,6 +118,25 @@ class LoginController: UIViewController {
         return img
     }()
     
+    lazy var loginRegisterSegmentedControl: UISegmentedControl = {
+        let sc = UISegmentedControl(items: ["Login", "Register"])
+        sc.translatesAutoresizingMaskIntoConstraints = false
+        sc.tintColor = UIColor.white
+        sc.selectedSegmentIndex = 1
+        sc.addTarget(self, action: #selector(handleLoginRegisterChange), for: .valueChanged)
+        return sc
+    }()
+    
+    
+    func handleLoginRegisterChange() {
+        let title = loginRegisterSegmentedControl.titleForSegment(at: loginRegisterSegmentedControl.selectedSegmentIndex)
+        
+        loginRegisterButton.setTitle(title, for: .normal)
+        //print(loginRegisterSegmentedControl.selectedSegmentIndex)
+    }
+    
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -108,16 +146,30 @@ class LoginController: UIViewController {
         view.addSubview(inputContainerView)
         view.addSubview(loginRegisterButton)
         view.addSubview(profileImageView)
+        view.addSubview(loginRegisterSegmentedControl)
+        
         
         setupInputContainerView()
         setupLoginRegisterButton()
         setupProfileImageView()
+        setupLoginRegisterSegmentedControl()
     }
+    
+    
+    
+    func setupLoginRegisterSegmentedControl() {
+        // add constraint of segmented control - x, y, width and height
+        loginRegisterSegmentedControl.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        loginRegisterSegmentedControl.bottomAnchor.constraint(equalTo: inputContainerView.topAnchor, constant: -12).isActive = true
+        loginRegisterSegmentedControl.widthAnchor.constraint(equalTo: inputContainerView.widthAnchor).isActive = true
+        loginRegisterSegmentedControl.heightAnchor.constraint(equalToConstant: 38).isActive = true
+    }
+    
     
     func setupProfileImageView() {
         // add constraint of profile image container - x, y, width and height
         profileImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        profileImageView.bottomAnchor.constraint(equalTo: inputContainerView.topAnchor, constant: -12).isActive = true
+        profileImageView.bottomAnchor.constraint(equalTo: loginRegisterSegmentedControl.topAnchor, constant: -12).isActive = true
         profileImageView.widthAnchor.constraint(equalToConstant: 100).isActive = true
         profileImageView.heightAnchor.constraint(equalToConstant: 100).isActive = true
     }
