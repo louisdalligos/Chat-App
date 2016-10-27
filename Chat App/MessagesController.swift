@@ -9,16 +9,31 @@
 import UIKit
 import Firebase
 
-class ViewController: UITableViewController {
+class MessagesController: UITableViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
         navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Logout", style: .plain, target: self, action: #selector(handleLogout))
         
+        checkIfUserIsLoggedIn()
+    }
+    
+    func checkIfUserIsLoggedIn() {
         // user is not logged in
         if FIRAuth.auth()?.currentUser?.uid == nil {
             performSelector(onMainThread: #selector(handleLogout), with: nil, waitUntilDone: true)
+        } else {
+            let uid = FIRAuth.auth()?.currentUser?.uid
+            FIRDatabase.database().reference().child("users").child(uid!).observeSingleEvent(of: .value, with: { (snapshot) in
+                
+                //print(snapshot)
+                if let dictionary = snapshot.value as? [String: AnyObject] {
+                    self.navigationItem.title = dictionary["name"] as? String
+                }
+                
+                
+                }, withCancel: nil)
         }
     }
     
