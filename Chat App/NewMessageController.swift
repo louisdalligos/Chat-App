@@ -56,10 +56,7 @@ class NewMessageController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        // hack for now - use deque for cells later
-        //let cell = UITableViewCell(style: .subtitle, reuseIdentifier: cellID)
-        
-        let cell = tableView.dequeueReusableCell(withIdentifier: cellID, for: indexPath)
+        let cell = tableView.dequeueReusableCell(withIdentifier: cellID, for: indexPath) as! UserCell
         
         let user = users[indexPath.row]
         cell.textLabel?.text = user.name
@@ -70,21 +67,23 @@ class NewMessageController: UITableViewController {
         
         if let profileImageURL = user.profileImageURL {
             
-            let url = NSURL(string: profileImageURL)
+            let url = URL(string: profileImageURL)
             
-            URLSession.shared.dataTask(with: url! as URL, completionHandler: { (data, response, error) in
+            URLSession.shared.dataTask(with: url!, completionHandler: { (data, response, error) in
                 
                 if error != nil {
-                    print(error)
+                    print("LOUIS\(error)")
                     return
                 }
                 
                 
-                DispatchQueue.main.async {
+                DispatchQueue.main.async(execute: {
+                    print("LOUIS: \(url)")
 //                    cell.imageView?.image = UIImage(data: data!)
-                }
+                    cell.profileImageView.image = UIImage(data: data!)
+                })
                 
-            })
+            }).resume()
         }
         
         return cell
@@ -108,10 +107,11 @@ class UserCell: UITableViewCell {
     
     let profileImageView: UIImageView = {
         let imageView = UIImageView()
-        imageView.image = UIImage(named: "al")
+        imageView.image = UIImage(named: "default-profile")
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.layer.cornerRadius = 20
         imageView.layer.masksToBounds = true
+        imageView.contentMode = .scaleAspectFill
         
         return imageView
     }()
