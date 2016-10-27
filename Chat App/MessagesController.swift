@@ -23,6 +23,9 @@ class MessagesController: UITableViewController {
     }
     
     func handleNewMessage() {
+        let newMessageController = NewMessageController()
+        let navController = UINavigationController(rootViewController: newMessageController)
+        present(navController, animated: true, completion: nil)
         
     }
     
