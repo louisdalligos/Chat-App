@@ -15,6 +15,7 @@
 		BF7E4F9E1DBEDFA500AE5BB8 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BF7E4F9C1DBEDFA500AE5BB8 /* LaunchScreen.storyboard */; };
 		BF7E4FA71DBEE72000AE5BB8 /* LoginController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF7E4FA61DBEE72000AE5BB8 /* LoginController.swift */; };
 		BFA1D84E1DC198D100D3B410 /* NewMessageController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFA1D84D1DC198D100D3B410 /* NewMessageController.swift */; };
+		BFA1D8511DC1A25D00D3B410 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFA1D8501DC1A25D00D3B410 /* User.swift */; };
 		BFC15CF51DBF910B00F31596 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = BFC15CF41DBF910B00F31596 /* GoogleService-Info.plist */; };
 /* End PBXBuildFile section */
 
@@ -31,6 +32,7 @@
 		BF7E4F9F1DBEDFA500AE5BB8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		BF7E4FA61DBEE72000AE5BB8 /* LoginController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginController.swift; sourceTree = "<group>"; };
 		BFA1D84D1DC198D100D3B410 /* NewMessageController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewMessageController.swift; sourceTree = "<group>"; };
+		BFA1D8501DC1A25D00D3B410 /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		BFC15CF41DBF910B00F31596 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -84,6 +86,7 @@
 		BF7E4F921DBEDFA400AE5BB8 /* Chat App */ = {
 			isa = PBXGroup;
 			children = (
+				BFA1D84F1DC1A24100D3B410 /* Model */,
 				BF7E4FA51DBEE70200AE5BB8 /* Controller */,
 				BF7E4F931DBEDFA400AE5BB8 /* AppDelegate.swift */,
 				BF7E4F971DBEDFA500AE5BB8 /* Main.storyboard */,
@@ -103,6 +106,14 @@
 				BFA1D84D1DC198D100D3B410 /* NewMessageController.swift */,
 			);
 			name = Controller;
+			sourceTree = "<group>";
+		};
+		BFA1D84F1DC1A24100D3B410 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				BFA1D8501DC1A25D00D3B410 /* User.swift */,
+			);
+			name = Model;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -233,6 +244,7 @@
 				BFA1D84E1DC198D100D3B410 /* NewMessageController.swift in Sources */,
 				BF7E4F961DBEDFA400AE5BB8 /* MessagesController.swift in Sources */,
 				BF7E4FA71DBEE72000AE5BB8 /* LoginController.swift in Sources */,
+				BFA1D8511DC1A25D00D3B410 /* User.swift in Sources */,
 				BF7E4F941DBEDFA400AE5BB8 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
