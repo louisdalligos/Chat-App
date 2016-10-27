@@ -1,5 +1,5 @@
 //
-//  ViewController.swift
+//  MessagesController.swift
 //  Chat App
 //
 //  Created by Louis on 25/10/2016.
@@ -16,8 +16,16 @@ class MessagesController: UITableViewController {
         
         navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Logout", style: .plain, target: self, action: #selector(handleLogout))
         
+        let image = UIImage(named: "chat")
+        navigationItem.rightBarButtonItem = UIBarButtonItem(image: image, style: .plain, target: self, action: #selector(handleNewMessage))
+        
         checkIfUserIsLoggedIn()
     }
+    
+    func handleNewMessage() {
+        
+    }
+    
     
     func checkIfUserIsLoggedIn() {
         // user is not logged in
