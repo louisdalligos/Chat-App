@@ -137,12 +137,17 @@ class LoginController: UIViewController {
         return tf
     }()
     
-    let profileImageView: UIImageView = {
+    lazy var profileImageView: UIImageView = {
         let img = UIImageView()
         img.image = UIImage(named: "default-profile")
         img.translatesAutoresizingMaskIntoConstraints = false
+        img.contentMode = .scaleAspectFill
         img.layer.cornerRadius = 50
         img.clipsToBounds = true
+        
+        img.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(handleSelectProfileImage)))
+        img.isUserInteractionEnabled = true
+        
         return img
     }()
     

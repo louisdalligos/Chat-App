@@ -16,6 +16,7 @@
 		BF7E4FA71DBEE72000AE5BB8 /* LoginController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF7E4FA61DBEE72000AE5BB8 /* LoginController.swift */; };
 		BFA1D84E1DC198D100D3B410 /* NewMessageController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFA1D84D1DC198D100D3B410 /* NewMessageController.swift */; };
 		BFA1D8511DC1A25D00D3B410 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFA1D8501DC1A25D00D3B410 /* User.swift */; };
+		BFA1D8531DC1B28F00D3B410 /* LoginController+handlers.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFA1D8521DC1B28F00D3B410 /* LoginController+handlers.swift */; };
 		BFC15CF51DBF910B00F31596 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = BFC15CF41DBF910B00F31596 /* GoogleService-Info.plist */; };
 /* End PBXBuildFile section */
 
@@ -33,6 +34,7 @@
 		BF7E4FA61DBEE72000AE5BB8 /* LoginController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginController.swift; sourceTree = "<group>"; };
 		BFA1D84D1DC198D100D3B410 /* NewMessageController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewMessageController.swift; sourceTree = "<group>"; };
 		BFA1D8501DC1A25D00D3B410 /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
+		BFA1D8521DC1B28F00D3B410 /* LoginController+handlers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "LoginController+handlers.swift"; sourceTree = "<group>"; };
 		BFC15CF41DBF910B00F31596 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -104,6 +106,7 @@
 				BF7E4FA61DBEE72000AE5BB8 /* LoginController.swift */,
 				BF7E4F951DBEDFA400AE5BB8 /* MessagesController.swift */,
 				BFA1D84D1DC198D100D3B410 /* NewMessageController.swift */,
+				BFA1D8521DC1B28F00D3B410 /* LoginController+handlers.swift */,
 			);
 			name = Controller;
 			sourceTree = "<group>";
@@ -243,6 +246,7 @@
 			files = (
 				BFA1D84E1DC198D100D3B410 /* NewMessageController.swift in Sources */,
 				BF7E4F961DBEDFA400AE5BB8 /* MessagesController.swift in Sources */,
+				BFA1D8531DC1B28F00D3B410 /* LoginController+handlers.swift in Sources */,
 				BF7E4FA71DBEE72000AE5BB8 /* LoginController.swift in Sources */,
 				BFA1D8511DC1A25D00D3B410 /* User.swift in Sources */,
 				BF7E4F941DBEDFA400AE5BB8 /* AppDelegate.swift in Sources */,
