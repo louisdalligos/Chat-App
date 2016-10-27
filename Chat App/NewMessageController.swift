@@ -19,6 +19,8 @@ class NewMessageController: UITableViewController {
 
         navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(handleCancel))
         
+        tableView.register(UserCell.self, forCellReuseIdentifier: cellID)
+        
         fetchUser()
     }
     
@@ -55,12 +57,26 @@ class NewMessageController: UITableViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         // hack for now - use deque for cells later
-        let cell = UITableViewCell(style: .subtitle, reuseIdentifier: cellID)
+        //let cell = UITableViewCell(style: .subtitle, reuseIdentifier: cellID)
+        
+        let cell = tableView.dequeueReusableCell(withIdentifier: cellID, for: indexPath)
         
         let user = users[indexPath.row]
         cell.textLabel?.text = user.name
+        cell.detailTextLabel?.text = user.email
         
         return cell
     }
 
+}
+
+class UserCell: UITableViewCell {
+    
+    override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
+        super.init(style: .subtitle, reuseIdentifier: reuseIdentifier)
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
 }
