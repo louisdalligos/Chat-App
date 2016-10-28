@@ -18,6 +18,7 @@
 		BFA1D8511DC1A25D00D3B410 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFA1D8501DC1A25D00D3B410 /* User.swift */; };
 		BFA1D8531DC1B28F00D3B410 /* LoginController+handlers.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFA1D8521DC1B28F00D3B410 /* LoginController+handlers.swift */; };
 		BFC15CF51DBF910B00F31596 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = BFC15CF41DBF910B00F31596 /* GoogleService-Info.plist */; };
+		BFD67F0A1DC3243F008B3291 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFD67F091DC3243F008B3291 /* Extensions.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -36,6 +37,7 @@
 		BFA1D8501DC1A25D00D3B410 /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		BFA1D8521DC1B28F00D3B410 /* LoginController+handlers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "LoginController+handlers.swift"; sourceTree = "<group>"; };
 		BFC15CF41DBF910B00F31596 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		BFD67F091DC3243F008B3291 /* Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -88,6 +90,7 @@
 		BF7E4F921DBEDFA400AE5BB8 /* Chat App */ = {
 			isa = PBXGroup;
 			children = (
+				BFD67F081DC32421008B3291 /* Helpers */,
 				BFA1D84F1DC1A24100D3B410 /* Model */,
 				BF7E4FA51DBEE70200AE5BB8 /* Controller */,
 				BF7E4F931DBEDFA400AE5BB8 /* AppDelegate.swift */,
@@ -117,6 +120,14 @@
 				BFA1D8501DC1A25D00D3B410 /* User.swift */,
 			);
 			name = Model;
+			sourceTree = "<group>";
+		};
+		BFD67F081DC32421008B3291 /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				BFD67F091DC3243F008B3291 /* Extensions.swift */,
+			);
+			name = Helpers;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -250,6 +261,7 @@
 				BF7E4FA71DBEE72000AE5BB8 /* LoginController.swift in Sources */,
 				BFA1D8511DC1A25D00D3B410 /* User.swift in Sources */,
 				BF7E4F941DBEDFA400AE5BB8 /* AppDelegate.swift in Sources */,
+				BFD67F0A1DC3243F008B3291 /* Extensions.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
