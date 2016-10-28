@@ -37,6 +37,7 @@ class MessagesController: UITableViewController {
         } else {
             fetchUserAndSetupNavBarTitle()
         }
+        
     }
     
     func fetchUserAndSetupNavBarTitle() {
@@ -50,11 +51,44 @@ class MessagesController: UITableViewController {
             
             //print(snapshot)
             if let dictionary = snapshot.value as? [String: AnyObject] {
-                self.navigationItem.title = dictionary["name"] as? String
+                //self.navigationItem.title = dictionary["name"] as? String
+                
+                let user = User()
+                user.setValuesForKeys(dictionary)
+                self.setupNavBarWithUser(user: user)
             }
             
             
             }, withCancel: nil)
+    }
+    
+    func setupNavBarWithUser(user: User) {
+        
+        //self.navigationItem.title = user.name
+        
+        let titleView = UIView()
+        titleView.frame = CGRect(x: 0, y: 0, width: 200, height: 40)
+        //titleView.backgroundColor = UIColor.red
+        
+        
+        let nameLabel = UILabel()
+        titleView.addSubview(nameLabel) // add the view
+        nameLabel.text = user.name
+        nameLabel.translatesAutoresizingMaskIntoConstraints = false
+
+        nameLabel.centerYAnchor.constraint(equalTo: titleView.centerYAnchor).isActive = true
+        nameLabel.centerXAnchor.constraint(equalTo: titleView.centerXAnchor).isActive = true
+        
+        
+        self.navigationItem.titleView = titleView
+        
+        titleView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(showChatController)))
+    }
+    
+    
+    
+    func showChatController() {
+        print(123)
     }
     
     func handleLogout() {
