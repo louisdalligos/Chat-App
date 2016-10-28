@@ -31,10 +31,11 @@ extension LoginController: UIImagePickerControllerDelegate, UINavigationControll
             
             // successfully authenticated user
             let imageName = NSUUID().uuidString
-            let storageRef = FIRStorage.storage().reference().child("profile_images").child("\(imageName).png")
+            let storageRef = FIRStorage.storage().reference().child("profile_images").child("\(imageName).jpg")
             
-            if let uploadData = UIImagePNGRepresentation(self.profileImageView.image!) {
-                
+            if let uploadData = UIImageJPEGRepresentation(self.profileImageView.image!, 0.1) {
+//            if let uploadData = UIImagePNGRepresentation(self.profileImageView.image!) {
+            
                 storageRef.put(uploadData, metadata: nil, completion: { (metadata, error) in
                     
                     if error != nil {
@@ -70,7 +71,8 @@ extension LoginController: UIImagePickerControllerDelegate, UINavigationControll
             
             print("Saved user successfully in Firebase DB")
             
-            self.messagesController?.fetchUserAndSetupNavBarTitle()
+            // self.messagesController?.fetchUserAndSetupNavBarTitle()
+            self.messagesController?.navigationItem.title = values["name"] as? String
             
             self.dismiss(animated: true, completion: nil)
         })
