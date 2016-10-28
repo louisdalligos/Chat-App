@@ -11,6 +11,8 @@ import Firebase
 
 class LoginController: UIViewController {
     
+    var messagesController: MessagesController?
+    
     let inputContainerView: UIView = {
         let view = UIView()
         view.backgroundColor = UIColor.white
