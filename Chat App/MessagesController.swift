@@ -88,7 +88,10 @@ class MessagesController: UITableViewController {
     
     
     func showChatController() {
-        print(123)
+        //print(123)
+        
+        let chatLogController = ChatLogController(collectionViewLayout: UICollectionViewFlowLayout())
+        navigationController?.pushViewController(chatLogController, animated: true)
     }
     
     func handleLogout() {
