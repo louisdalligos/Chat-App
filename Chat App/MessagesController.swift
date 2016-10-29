@@ -11,6 +11,9 @@ import Firebase
 
 class MessagesController: UITableViewController {
 
+    let cellID = "cellID"
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -20,6 +23,8 @@ class MessagesController: UITableViewController {
         navigationItem.rightBarButtonItem = UIBarButtonItem(image: image, style: .plain, target: self, action: #selector(handleNewMessage))
         
         checkIfUserIsLoggedIn()
+        
+        tableView.register(UserCell.self, forCellReuseIdentifier: cellID)
         
         observeMessages()
     }
@@ -56,13 +61,37 @@ class MessagesController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        let cell = UITableViewCell(style: .subtitle, reuseIdentifier: "cellID")
+        //let cell = UITableViewCell(style: .subtitle, reuseIdentifier: "cellID") // hack
+        
+        let cell = tableView.dequeueReusableCell(withIdentifier: cellID, for: indexPath) as! UserCell
         
         let message = messages[indexPath.row]
-        cell.textLabel?.text = message.toID
+        
+        if let toID = message.toID {
+            let ref = FIRDatabase.database().reference().child("users").child(toID)
+            
+            ref.observeSingleEvent(of: .value, with: { (snapshot) in
+                
+                if let dictionary = snapshot.value as? [String: AnyObject] {
+                    cell.textLabel?.text = dictionary["name"] as? String
+                    
+                    if let profileImageURL = dictionary["profileImageURL"] as? String {
+                        cell.profileImageView.loadImagesUsingCacheWithURLString(urlString: profileImageURL)
+                    }
+                }
+                //print(snapshot)
+            })
+        }
+        
+        
+//        cell.textLabel?.text = message.toID
         cell.detailTextLabel?.text = message.text
         
         return cell
+    }
+    
+    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 76
     }
     
     func handleNewMessage() {

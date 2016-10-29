@@ -58,7 +58,7 @@ extension LoginController: UIImagePickerControllerDelegate, UINavigationControll
     
     private func registerUserIntoDatabaseWithUID(uid: String, values: [String: AnyObject]) {
         
-        let ref = FIRDatabase.database().reference(fromURL: "https://chat-app-65aed.firebaseio.com/")
+        let ref = FIRDatabase.database().reference()
         let usersReference = ref.child("users").child(uid)
         // let values = ["name": name, "email": email, "profileImageURL": metadata.downloadURL()]
         usersReference.updateChildValues(values, withCompletionBlock: { (err, ref) in
