@@ -61,32 +61,11 @@ class MessagesController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        //let cell = UITableViewCell(style: .subtitle, reuseIdentifier: "cellID") // hack
-        
         let cell = tableView.dequeueReusableCell(withIdentifier: cellID, for: indexPath) as! UserCell
         
         let message = messages[indexPath.row]
-        
-        if let toID = message.toID {
-            let ref = FIRDatabase.database().reference().child("users").child(toID)
-            
-            ref.observeSingleEvent(of: .value, with: { (snapshot) in
+        cell.message = message
                 
-                if let dictionary = snapshot.value as? [String: AnyObject] {
-                    cell.textLabel?.text = dictionary["name"] as? String
-                    
-                    if let profileImageURL = dictionary["profileImageURL"] as? String {
-                        cell.profileImageView.loadImagesUsingCacheWithURLString(urlString: profileImageURL)
-                    }
-                }
-                //print(snapshot)
-            })
-        }
-        
-        
-//        cell.textLabel?.text = message.toID
-        cell.detailTextLabel?.text = message.text
-        
         return cell
     }
     
