@@ -20,6 +20,49 @@ class MessagesController: UITableViewController {
         navigationItem.rightBarButtonItem = UIBarButtonItem(image: image, style: .plain, target: self, action: #selector(handleNewMessage))
         
         checkIfUserIsLoggedIn()
+        
+        observeMessages()
+    }
+    
+    var messages = [Message]()
+    
+    func observeMessages() {
+        
+        let ref = FIRDatabase.database().reference().child("messages")
+        ref.observe(.childAdded, with: { (snapshot) in
+            
+            //print(snapshot)
+            
+            if let dictionary = snapshot.value as? [String: AnyObject] {
+                let message = Message()
+                message.setValuesForKeys(dictionary)
+                //print(message.text)
+                self.messages.append(message)
+                
+                DispatchQueue.main.async(execute: {
+                    self.tableView.reloadData()
+                })
+                
+            }
+            
+            
+            }, withCancel: nil)
+    }
+    
+    
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return messages.count
+    }
+    
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        
+        let cell = UITableViewCell(style: .subtitle, reuseIdentifier: "cellID")
+        
+        let message = messages[indexPath.row]
+        cell.textLabel?.text = message.toID
+        cell.detailTextLabel?.text = message.text
+        
+        return cell
     }
     
     func handleNewMessage() {
