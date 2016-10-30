@@ -93,8 +93,8 @@ class MessagesController: UITableViewController {
                 //print(message.text)
                 self.messages.append(message)
                 
-                if let toID = message.toID {
-                    self.messagesDictionary[message.toID!] = message
+                if let chatPartnerID = message.chatPartnerID() {
+                    self.messagesDictionary[chatPartnerID] = message
                     
                     self.messages = Array(self.messagesDictionary.values)
                     
