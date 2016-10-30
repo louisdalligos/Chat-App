@@ -26,11 +26,59 @@ class MessagesController: UITableViewController {
         
         tableView.register(UserCell.self, forCellReuseIdentifier: cellID)
         
-        observeMessages()
+        //observeMessages()
+        
     }
     
     var messages = [Message]()
     var messagesDictionary = [String: Message]()
+    
+    
+    
+    func observeUserMessages() {
+        
+        guard let uid = FIRAuth.auth()?.currentUser?.uid else {
+            return
+        }
+        
+        let ref = FIRDatabase.database().reference().child("user-messages").child(uid)
+        ref.observe(.childAdded, with: { (snapshot) in
+            
+            //print(snapshot)
+            
+            let messageID = snapshot.key
+            let messageReference = FIRDatabase.database().reference().child("messages").child(messageID)
+            
+            messageReference.observeSingleEvent(of: .value, with: { (snapshot) in
+                
+                //print(snapshot)
+                
+                if let dictionary = snapshot.value as? [String: AnyObject] {
+                    let message = Message()
+                    message.setValuesForKeys(dictionary)
+                    
+                    if let toID = message.toID {
+                        self.messagesDictionary[message.toID!] = message
+                        
+                        self.messages = Array(self.messagesDictionary.values)
+                        
+                        self.messages.sort(by: { (message1, message2) -> Bool in
+                            return (message1.timestamp?.intValue)! > (message2.timestamp?.intValue)!
+                        })
+                    }
+                    
+                    
+                    DispatchQueue.main.async(execute: {
+                        self.tableView.reloadData()
+                    })
+                    
+                }
+                
+            }, withCancel: nil)
+            
+        }, withCancel: nil)
+    }
+    
     
     func observeMessages() {
         
@@ -127,6 +175,11 @@ class MessagesController: UITableViewController {
     }
     
     func setupNavBarWithUser(user: User) {
+        messages.removeAll()
+        messagesDictionary.removeAll()
+        tableView.reloadData()
+        
+        observeUserMessages()
         
         //self.navigationItem.title = user.name
         
