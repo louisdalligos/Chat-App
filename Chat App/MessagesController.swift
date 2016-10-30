@@ -124,6 +124,7 @@ class MessagesController: UITableViewController {
         let cell = tableView.dequeueReusableCell(withIdentifier: cellID, for: indexPath) as! UserCell
         
         let message = messages[indexPath.row]
+        
         cell.message = message
                 
         return cell
@@ -131,6 +132,35 @@ class MessagesController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 76
+    }
+    
+    
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+        let message = messages[indexPath.row]
+        
+        guard let chatPartnerID = message.chatPartnerID() else {
+            return
+        }
+        
+        let ref = FIRDatabase.database().reference().child("users").child(chatPartnerID)
+        
+        ref.observeSingleEvent(of: .value, with: { (snapshot) in
+            //print(snapshot)
+            
+            guard let dictionary = snapshot.value as? [String: AnyObject] else {
+                return
+            }
+            
+            let user = User()
+            user.id = chatPartnerID
+            user.setValuesForKeys(dictionary)
+            
+            self.showChatControllerForUser(user: user)
+            
+            }, withCancel: nil)
+        
+        // print(message.text, message.toID, message.fromID)   
     }
     
     func handleNewMessage() {
