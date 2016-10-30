@@ -57,8 +57,8 @@ class MessagesController: UITableViewController {
                     let message = Message()
                     message.setValuesForKeys(dictionary)
                     
-                    if let toID = message.toID {
-                        self.messagesDictionary[message.toID!] = message
+                    if let chatPartnerID = message.chatPartnerID() {
+                        self.messagesDictionary[chatPartnerID] = message
                         
                         self.messages = Array(self.messagesDictionary.values)
                         
@@ -68,10 +68,8 @@ class MessagesController: UITableViewController {
                     }
                     
                     
-                    DispatchQueue.main.async(execute: {
-                        self.tableView.reloadData()
-                    })
-                    
+                    self.timer?.invalidate()
+                    self.timer = Timer.scheduledTimer(timeInterval: 0.1, target: self, selector: #selector(self.handleReloadTable), userInfo: nil, repeats: false)
                 }
                 
             }, withCancel: nil)
@@ -79,39 +77,15 @@ class MessagesController: UITableViewController {
         }, withCancel: nil)
     }
     
+    var timer: Timer?
     
-    func observeMessages() {
+    func handleReloadTable() {
         
-        let ref = FIRDatabase.database().reference().child("messages")
-        ref.observe(.childAdded, with: { (snapshot) in
-            
-            //print(snapshot)
-            
-            if let dictionary = snapshot.value as? [String: AnyObject] {
-                let message = Message()
-                message.setValuesForKeys(dictionary)
-                //print(message.text)
-                self.messages.append(message)
-                
-                if let chatPartnerID = message.chatPartnerID() {
-                    self.messagesDictionary[chatPartnerID] = message
-                    
-                    self.messages = Array(self.messagesDictionary.values)
-                    
-                    self.messages.sort(by: { (message1, message2) -> Bool in
-                        return (message1.timestamp?.intValue)! > (message2.timestamp?.intValue)!
-                    })
-                }
-                
-                
-                DispatchQueue.main.async(execute: {
-                    self.tableView.reloadData()
-                })
-                
-            }
-            
-            
-            }, withCancel: nil)
+        DispatchQueue.main.async(execute: {
+            print("LOUIS: we reloaded the table")
+            self.tableView.reloadData()
+        })
+        
     }
     
     
