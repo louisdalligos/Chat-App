@@ -40,13 +40,8 @@ class ChatLogController: UICollectionViewController, UITextFieldDelegate, UIColl
                 guard let dictionary = snapshot.value as? [String: AnyObject] else {
                     return
                 }
-                
-                let message = Message()
-                
-                // potential crash if keys don't match
-                message.setValuesForKeys(dictionary)
-                
-                self.messages.append(message)
+
+                self.messages.append(Message(dictionary: dictionary))
                 
                 DispatchQueue.main.async(execute: {
                     self.collectionView?.reloadData()
@@ -178,7 +173,7 @@ class ChatLogController: UICollectionViewController, UITextFieldDelegate, UIColl
                 }
                 
                 if let imageURL = metadata?.downloadURL()?.absoluteString {
-                    self.sendMessageWithImageURL(imageURL: imageURL)
+                    self.sendMessageWithImageURL(imageURL: imageURL, image: image)
                 }
                 
             })
@@ -186,7 +181,7 @@ class ChatLogController: UICollectionViewController, UITextFieldDelegate, UIColl
     }
     
     
-    private func sendMessageWithImageURL(imageURL: String) {
+    private func sendMessageWithImageURL(imageURL: String, image: UIImage) {
         
         let ref = FIRDatabase.database().reference().child("messages")
         let childRef = ref.childByAutoId()
@@ -195,7 +190,7 @@ class ChatLogController: UICollectionViewController, UITextFieldDelegate, UIColl
         let fromID = FIRAuth.auth()!.currentUser!.uid
         let timestamp = NSDate().timeIntervalSince1970
         
-        let values = ["imageURL": imageURL, "toID": toID, "fromID": fromID, "timestamp": timestamp] as [String : Any]
+        let values = ["toID": toID, "fromID": fromID, "timestamp": timestamp, "imageURL": imageURL, "imageWidth": image.size.width, "imageHeight": image.size.height] as [String : Any]
         
         childRef.updateChildValues(values) { (error, ref) in
             
