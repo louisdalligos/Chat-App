@@ -180,39 +180,7 @@ class ChatLogController: UICollectionViewController, UITextFieldDelegate, UIColl
         }
     }
     
-    
-    private func sendMessageWithImageURL(imageURL: String, image: UIImage) {
-        
-        let ref = FIRDatabase.database().reference().child("messages")
-        let childRef = ref.childByAutoId()
-        
-        let toID = user!.id!
-        let fromID = FIRAuth.auth()!.currentUser!.uid
-        let timestamp = NSDate().timeIntervalSince1970
-        
-        let values = ["toID": toID, "fromID": fromID, "timestamp": timestamp, "imageURL": imageURL, "imageWidth": image.size.width, "imageHeight": image.size.height] as [String : Any]
-        
-        childRef.updateChildValues(values) { (error, ref) in
-            
-            if error != nil {
-                print(error)
-                return
-            }
-            
-            self.inputTextField.text = nil // clear textfield after message has been entered
-            
-            let userMessagesRef = FIRDatabase.database().reference().child("user-messages").child(fromID).child(toID)
-            
-            let messageID = childRef.key
-            userMessagesRef.updateChildValues([messageID: 1])
-            
-            let recepientUserMessagesRef = FIRDatabase.database().reference().child("user-messages").child(toID).child(fromID)
-            recepientUserMessagesRef.updateChildValues([messageID: 1])
-        }
 
-    }
-    
-    
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
         dismiss(animated: true, completion: nil)
     }
@@ -358,6 +326,18 @@ class ChatLogController: UICollectionViewController, UITextFieldDelegate, UIColl
     
 
     func handleSend() {
+        let properties = ["text": inputTextField.text!] as [String : Any]
+        sendMessageWithProperties(properties: properties as [String : AnyObject])
+    }
+    
+    
+    private func sendMessageWithImageURL(imageURL: String, image: UIImage) {
+        let properties = ["imageURL": imageURL, "imageWidth": image.size.width, "imageHeight": image.size.height] as [String : Any]
+        sendMessageWithProperties(properties: properties as [String : AnyObject])
+    }
+    
+    
+    private func sendMessageWithProperties(properties: [String: AnyObject]) {
         
         let ref = FIRDatabase.database().reference().child("messages")
         let childRef = ref.childByAutoId()
@@ -366,7 +346,10 @@ class ChatLogController: UICollectionViewController, UITextFieldDelegate, UIColl
         let fromID = FIRAuth.auth()!.currentUser!.uid
         let timestamp = NSDate().timeIntervalSince1970
         
-        let values = ["text": inputTextField.text!, "toID": toID, "fromID": fromID, "timestamp": timestamp] as [String : Any]
+        var values = ["toID": toID, "fromID": fromID, "timestamp": timestamp] as [String : Any]
+        
+        // append properties dictionary into values
+        properties.forEach({values[$0] = $1})
         
         childRef.updateChildValues(values) { (error, ref) in
             
