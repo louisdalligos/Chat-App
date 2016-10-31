@@ -15,17 +15,10 @@ class Message: NSObject {
     var text: String?
     var timestamp: NSNumber?
     var toID: String?
+    var imageURL: String?
     
     func chatPartnerID() -> String? {
-        
         return fromID == FIRAuth.auth()?.currentUser?.uid ? toID : fromID
-        
-//        if fromID == FIRAuth.auth()?.currentUser?.uid {
-//            return toID
-//        } else {
-//            return fromID
-//        }
-        
     }
     
 }

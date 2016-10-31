@@ -92,9 +92,9 @@ extension LoginController: UIImagePickerControllerDelegate, UINavigationControll
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
         
+        // get our image code block
         var selectedImageFromPicker: UIImage?
-        
-        
+
         if let editedImage = info["UIImagePickerControllerEditedImage"] as? UIImage {
             selectedImageFromPicker = editedImage
             //print((editedImage as AnyObject).size)
@@ -103,13 +103,13 @@ extension LoginController: UIImagePickerControllerDelegate, UINavigationControll
             selectedImageFromPicker = originalImage
         }
         
-        
         if let selectedImage = selectedImageFromPicker {
             profileImageView.image = selectedImage
         }
         
         //print(info)
         dismiss(animated: true, completion: nil)
+        
     }
     
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
