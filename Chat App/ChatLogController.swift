@@ -266,6 +266,8 @@ class ChatLogController: UICollectionViewController, UITextFieldDelegate, UIColl
         
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellID, for: indexPath) as! ChatMessageCell
         
+        cell.chatLogController = self
+        
         let message = messages[indexPath.item]
         cell.textView.text = message.text
         
@@ -274,8 +276,10 @@ class ChatLogController: UICollectionViewController, UITextFieldDelegate, UIColl
         // modify bubbleView's width
         if let text = message.text {
             cell.bubbleWidthAnchor?.constant = estimateFrameForText(text: text).width + 32
+            cell.textView.isHidden = false
         } else if message.imageURL != nil {
             cell.bubbleWidthAnchor?.constant = 200
+            cell.textView.isHidden = true
         }
 
         return cell
@@ -397,6 +401,73 @@ class ChatLogController: UICollectionViewController, UITextFieldDelegate, UIColl
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         handleSend()
         return true
+    }
+    
+    var startingFrame: CGRect?
+    var overlayBGView: UIView?
+    var startingImageView: UIImageView?
+    
+    func performZoomInForStartingImageView(startingImageView: UIImageView) {
+        
+        self.startingImageView = startingImageView
+        self.startingImageView?.isHidden = true
+        
+        startingFrame = startingImageView.superview?.convert(startingImageView.frame, to: nil)
+        print(startingFrame)
+        
+        let zoomImageView = UIImageView(frame: startingFrame!)
+        zoomImageView.backgroundColor = UIColor.red
+        zoomImageView.image = startingImageView.image
+        zoomImageView.isUserInteractionEnabled = true
+        zoomImageView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(handleZoomOut)))
+        
+        
+        
+        if let keyWindow = UIApplication.shared.keyWindow {
+            
+            overlayBGView = UIView(frame: keyWindow.frame)
+            overlayBGView?.backgroundColor = UIColor.black
+            overlayBGView?.alpha = 0
+            
+            keyWindow.addSubview(overlayBGView!)
+            keyWindow.addSubview(zoomImageView)
+            
+            
+            UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveEaseOut, animations: {
+                
+                self.overlayBGView?.alpha = 1
+                self.inputContainerView.alpha = 0
+                
+                let height = self.startingFrame!.height / self.startingFrame!.width * keyWindow.frame.width
+                
+                zoomImageView.frame = CGRect(x: 0, y: 0, width: keyWindow.frame.width, height: height)
+                zoomImageView.center = keyWindow.center
+                
+                }, completion: { (completed) in
+                    
+            })
+        }
+        
+    }
+    
+    func handleZoomOut(tapGesture: UITapGestureRecognizer) {
+        
+        if let zoomOutImageView = tapGesture.view {
+            
+            zoomOutImageView.layer.cornerRadius = 16
+            zoomOutImageView.clipsToBounds = true
+
+            UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveEaseOut, animations: { 
+                
+                zoomOutImageView.frame = self.startingFrame!
+                self.overlayBGView?.alpha = 0
+                self.inputContainerView.alpha = 1
+                
+                }, completion: { (completed) in
+                    zoomOutImageView.removeFromSuperview()
+                    self.startingImageView?.isHidden = false
+            })
+        }
     }
 
 }
