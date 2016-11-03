@@ -33,7 +33,6 @@ class Message: NSObject {
         imageURL = dictionary["imageURL"] as? String
         imageHeight = dictionary["imageHeight"] as? NSNumber
         imageWidth = dictionary["imageWidth"] as? NSNumber
-        
     }
     
 }

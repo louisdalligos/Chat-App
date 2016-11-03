@@ -16,10 +16,8 @@ extension LoginController: UIImagePickerControllerDelegate, UINavigationControll
             print("Form is not valid")
             return
         }
-        
-        
+
         FIRAuth.auth()?.createUser(withEmail: email, password: password, completion: { (user: FIRUser?, error) in
-            
             if error != nil {
                 print("LOUIS: \(error)")
                 return
@@ -43,24 +41,18 @@ extension LoginController: UIImagePickerControllerDelegate, UINavigationControll
                     }
                     
                     if let profileImageURL = metadata?.downloadURL()?.absoluteString {
-                        
                         let values = ["name": name, "email": email, "profileImageURL": profileImageURL]
                         
                         self.registerUserIntoDatabaseWithUID(uid: uid, values: values as [String : AnyObject])
                     }
-
-                    //print(metadata)
                 })
             }
         })
     }
     
-    
     private func registerUserIntoDatabaseWithUID(uid: String, values: [String: AnyObject]) {
-        
         let ref = FIRDatabase.database().reference()
         let usersReference = ref.child("users").child(uid)
-        // let values = ["name": name, "email": email, "profileImageURL": metadata.downloadURL()]
         usersReference.updateChildValues(values, withCompletionBlock: { (err, ref) in
             
             if err != nil {
@@ -69,15 +61,12 @@ extension LoginController: UIImagePickerControllerDelegate, UINavigationControll
             }
             
             print("Saved user successfully in Firebase DB")
-            
-            // self.messagesController?.fetchUserAndSetupNavBarTitle()
+
             self.messagesController?.navigationItem.title = values["name"] as? String
             
             self.dismiss(animated: true, completion: nil)
         })
-        
     }
-    
     
     func handleSelectProfileImage() {
         let picker = UIImagePickerController()
@@ -88,10 +77,7 @@ extension LoginController: UIImagePickerControllerDelegate, UINavigationControll
         present(picker, animated: true, completion: nil)
     }
     
-    
-    
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
-        
         // get our image code block
         var selectedImageFromPicker: UIImage?
 
@@ -107,14 +93,11 @@ extension LoginController: UIImagePickerControllerDelegate, UINavigationControll
             profileImageView.image = selectedImage
         }
         
-        //print(info)
         dismiss(animated: true, completion: nil)
-        
     }
     
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
         print("Cancelled picker")
         dismiss(animated: true, completion: nil)
     }
-    
 }

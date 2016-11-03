@@ -35,8 +35,7 @@ class ChatInputContainerView: UIView, UITextFieldDelegate {
     }()
     
     let sendButton = UIButton(type: .system)
-    
-    
+
     override init(frame: CGRect) {
         super.init(frame: frame)
         
@@ -77,8 +76,7 @@ class ChatInputContainerView: UIView, UITextFieldDelegate {
         separatorLineView.widthAnchor.constraint(equalTo: widthAnchor).isActive = true
         separatorLineView.heightAnchor.constraint(equalToConstant: 1).isActive = true
     }
-    
-    
+
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         chatLogController?.handleSend()
         return true
@@ -87,5 +85,4 @@ class ChatInputContainerView: UIView, UITextFieldDelegate {
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
 }

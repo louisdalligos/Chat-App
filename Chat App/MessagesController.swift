@@ -12,8 +12,7 @@ import Firebase
 class MessagesController: UITableViewController {
 
     let cellID = "cellID"
-    
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -25,8 +24,6 @@ class MessagesController: UITableViewController {
         checkIfUserIsLoggedIn()
         
         tableView.register(UserCell.self, forCellReuseIdentifier: cellID)
-        
-        //observeMessages()
         
         tableView.allowsMultipleSelectionDuringEditing = true
     }
@@ -60,11 +57,8 @@ class MessagesController: UITableViewController {
     
     var messages = [Message]()
     var messagesDictionary = [String: Message]()
-    
-    
-    
+
     func observeUserMessages() {
-        
         guard let uid = FIRAuth.auth()?.currentUser?.uid else {
             return
         }
@@ -75,14 +69,11 @@ class MessagesController: UITableViewController {
             let userID = snapshot.key
             
             FIRDatabase.database().reference().child("user-messages").child(uid).child(userID).observe(.childAdded, with: { (snapshot) in
-                
-                
+
                 let messageID = snapshot.key
                 self.fetchMessageWithMessageID(messageID: messageID)
                 
-                
-                
-                }, withCancel: nil)
+            }, withCancel: nil)
 
         }, withCancel: nil)
         
@@ -91,7 +82,7 @@ class MessagesController: UITableViewController {
             //print(self.messagesDictionary)
             self.messagesDictionary.removeValue(forKey: snapshot.key)
             self.attemptReloadTable()
-            }, withCancel: nil)
+        }, withCancel: nil)
     }
     
     private func fetchMessageWithMessageID(messageID: String) {
@@ -100,7 +91,6 @@ class MessagesController: UITableViewController {
         messageReference.observeSingleEvent(of: .value, with: { (snapshot) in
             
             if let dictionary = snapshot.value as? [String: AnyObject] {
-                
                 let message = Message(dictionary: dictionary)
                 
                 if let chatPartnerID = message.chatPartnerID() {
@@ -110,32 +100,27 @@ class MessagesController: UITableViewController {
                 self.attemptReloadTable()
             }
             
-            }, withCancel: nil)
+        }, withCancel: nil)
     }
     
     private func attemptReloadTable() {
-        
         self.timer?.invalidate()
         self.timer = Timer.scheduledTimer(timeInterval: 0.1, target: self, selector: #selector(self.handleReloadTable), userInfo: nil, repeats: false)
-        
     }
     
     var timer: Timer?
     
     func handleReloadTable() {
-        
         self.messages = Array(self.messagesDictionary.values)
         
         self.messages.sort(by: { (message1, message2) -> Bool in
             return (message1.timestamp?.intValue)! > (message2.timestamp?.intValue)!
         })
-        
-        
+
         DispatchQueue.main.async(execute: {
             //print("LOUIS: we reloaded the table")
             self.tableView.reloadData()
         })
-        
     }
     
     
@@ -144,7 +129,6 @@ class MessagesController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        
         let cell = tableView.dequeueReusableCell(withIdentifier: cellID, for: indexPath) as! UserCell
         
         let message = messages[indexPath.row]
@@ -160,7 +144,6 @@ class MessagesController: UITableViewController {
     
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
         let message = messages[indexPath.row]
         
         guard let chatPartnerID = message.chatPartnerID() else {
@@ -170,8 +153,6 @@ class MessagesController: UITableViewController {
         let ref = FIRDatabase.database().reference().child("users").child(chatPartnerID)
         
         ref.observeSingleEvent(of: .value, with: { (snapshot) in
-            //print(snapshot)
-            
             guard let dictionary = snapshot.value as? [String: AnyObject] else {
                 return
             }
@@ -182,9 +163,7 @@ class MessagesController: UITableViewController {
             
             self.showChatControllerForUser(user: user)
             
-            }, withCancel: nil)
-        
-        // print(message.text, message.toID, message.fromID)   
+        }, withCancel: nil)
     }
     
     func handleNewMessage() {
@@ -194,8 +173,7 @@ class MessagesController: UITableViewController {
         present(navController, animated: true, completion: nil)
         
     }
-    
-    
+
     func checkIfUserIsLoggedIn() {
         // user is not logged in
         if FIRAuth.auth()?.currentUser?.uid == nil {
@@ -207,15 +185,12 @@ class MessagesController: UITableViewController {
     }
     
     func fetchUserAndSetupNavBarTitle() {
-        
         guard let uid = FIRAuth.auth()?.currentUser?.uid else {
             // if for some reason the uid = nil
             return
         }
         
         FIRDatabase.database().reference().child("users").child(uid).observeSingleEvent(of: .value, with: { (snapshot) in
-            
-            //print(snapshot)
             if let dictionary = snapshot.value as? [String: AnyObject] {
                 //self.navigationItem.title = dictionary["name"] as? String
                 
@@ -223,9 +198,7 @@ class MessagesController: UITableViewController {
                 user.setValuesForKeys(dictionary)
                 self.setupNavBarWithUser(user: user)
             }
-            
-            
-            }, withCancel: nil)
+        }, withCancel: nil)
     }
     
     func setupNavBarWithUser(user: User) {
@@ -235,13 +208,9 @@ class MessagesController: UITableViewController {
         
         observeUserMessages()
         
-        //self.navigationItem.title = user.name
-        
         let titleView = UIView()
         titleView.frame = CGRect(x: 0, y: 0, width: 200, height: 40)
-        //titleView.backgroundColor = UIColor.red
-        
-        
+
         let nameLabel = UILabel()
         titleView.addSubview(nameLabel) // add the view
         nameLabel.text = user.name
@@ -250,24 +219,16 @@ class MessagesController: UITableViewController {
         nameLabel.centerYAnchor.constraint(equalTo: titleView.centerYAnchor).isActive = true
         nameLabel.centerXAnchor.constraint(equalTo: titleView.centerXAnchor).isActive = true
         
-        
         self.navigationItem.titleView = titleView
-        
-//        titleView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(showChatController)))
     }
-    
-    
-    
+
     func showChatControllerForUser(user: User) {
-        //print(123)
-        
         let chatLogController = ChatLogController(collectionViewLayout: UICollectionViewFlowLayout())
         chatLogController.user = user
         navigationController?.pushViewController(chatLogController, animated: true)
     }
     
     func handleLogout() {
-        
         do {
             try FIRAuth.auth()?.signOut()
         } catch let logoutError {
@@ -279,8 +240,5 @@ class MessagesController: UITableViewController {
         loginController.messagesController = self
         present(loginController, animated: true, completion: nil)
     }
-    
-    
-
 }
 

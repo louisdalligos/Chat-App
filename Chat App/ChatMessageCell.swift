@@ -20,6 +20,7 @@ class ChatMessageCell: UICollectionViewCell {
         tv.textColor = UIColor.white
         tv.translatesAutoresizingMaskIntoConstraints = false
         tv.isEditable = false
+        
         return tv
     }()
     
@@ -31,6 +32,7 @@ class ChatMessageCell: UICollectionViewCell {
         view.layer.cornerRadius = 16
         view.layer.masksToBounds = true
         view.translatesAutoresizingMaskIntoConstraints = false
+        
         return view
     }()
     
@@ -40,6 +42,7 @@ class ChatMessageCell: UICollectionViewCell {
         imageView.layer.masksToBounds = true
         imageView.contentMode = .scaleAspectFill
         imageView.translatesAutoresizingMaskIntoConstraints = false
+        
         return imageView
     }()
     
@@ -51,16 +54,15 @@ class ChatMessageCell: UICollectionViewCell {
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.isUserInteractionEnabled = true
         imageView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(handleTapImageZoom)))
+        
         return imageView
     }()
     
     
     func handleTapImageZoom(tapGesture: UITapGestureRecognizer) {
-
         if let imageView = tapGesture.view as? UIImageView {
             self.chatLogController?.performZoomInForStartingImageView(startingImageView: imageView)
         }
-
     }
     
     var bubbleWidthAnchor: NSLayoutConstraint?
@@ -85,31 +87,23 @@ class ChatMessageCell: UICollectionViewCell {
         profileChatImageView.widthAnchor.constraint(equalToConstant: 32).isActive = true
         profileChatImageView.heightAnchor.constraint(equalToConstant: 32).isActive = true
         
-        
         bubbleViewRightAnchor = bubbleView.rightAnchor.constraint(equalTo: self.rightAnchor, constant: -8)
         bubbleViewRightAnchor?.isActive = true
         
         bubbleViewLeftAnchor = bubbleView.leftAnchor.constraint(equalTo: profileChatImageView.rightAnchor, constant: 8)
-        //bubbleViewLeftAnchor?.isActive = false
         
         bubbleView.topAnchor.constraint(equalTo: self.topAnchor).isActive = true
         bubbleView.heightAnchor.constraint(equalTo: self.heightAnchor).isActive = true
-
         bubbleWidthAnchor = bubbleView.widthAnchor.constraint(equalToConstant: 200)
         bubbleWidthAnchor?.isActive = true
-        
-        //textView.rightAnchor.constraint(equalTo: self.rightAnchor).isActive = true
+
         textView.leftAnchor.constraint(equalTo: bubbleView.leftAnchor, constant: 8).isActive = true
         textView.topAnchor.constraint(equalTo: self.topAnchor).isActive = true
         textView.rightAnchor.constraint(equalTo: bubbleView.rightAnchor).isActive = true
-        //textView.widthAnchor.constraint(equalToConstant: 200).isActive = true
         textView.heightAnchor.constraint(equalTo: self.heightAnchor).isActive = true
-        
-        
     }
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
 }

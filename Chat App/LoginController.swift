@@ -19,6 +19,7 @@ class LoginController: UIViewController {
         view.translatesAutoresizingMaskIntoConstraints = false
         view.layer.cornerRadius = 5
         view.layer.masksToBounds = true
+        
         return view
     }()
     
@@ -29,9 +30,7 @@ class LoginController: UIViewController {
         button.translatesAutoresizingMaskIntoConstraints = false
         button.setTitleColor(UIColor.white, for: .normal)
         button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 16)
-        
         button.addTarget(self, action: #selector(handleLoginRegister), for: .touchUpInside)
-        
         
         return button
     }()
@@ -48,12 +47,15 @@ class LoginController: UIViewController {
     func handleLogin() {
         guard let email = emailTextField.text, let password = passwordTextField.text else {
             print("Form is not valid")
+            
             return
         }
+        
         FIRAuth.auth()?.signIn(withEmail: email, password: password, completion: { (user, error) in
             
             if error != nil {
                 print(error)
+                
                 return
             }
             
@@ -63,11 +65,11 @@ class LoginController: UIViewController {
         })
     }
     
-    
     let nameTextField: UITextField = {
         let tf = UITextField()
         tf.placeholder = "Name"
         tf.translatesAutoresizingMaskIntoConstraints = false
+        
         return tf
     }()
     
@@ -75,6 +77,7 @@ class LoginController: UIViewController {
         let view = UIView()
         view.backgroundColor = UIColor(r: 220, g: 220, b: 220)
         view.translatesAutoresizingMaskIntoConstraints = false
+        
         return view
     }()
     
@@ -82,6 +85,7 @@ class LoginController: UIViewController {
         let tf = UITextField()
         tf.placeholder = "Email"
         tf.translatesAutoresizingMaskIntoConstraints = false
+        
         return tf
     }()
     
@@ -89,6 +93,7 @@ class LoginController: UIViewController {
         let view = UIView()
         view.backgroundColor = UIColor(r: 220, g: 220, b: 220)
         view.translatesAutoresizingMaskIntoConstraints = false
+        
         return view
     }()
     
@@ -97,6 +102,7 @@ class LoginController: UIViewController {
         tf.placeholder = "Password"
         tf.translatesAutoresizingMaskIntoConstraints = false
         tf.isSecureTextEntry = true
+        
         return tf
     }()
     
@@ -107,7 +113,6 @@ class LoginController: UIViewController {
         img.contentMode = .scaleAspectFill
         img.layer.cornerRadius = 50
         img.clipsToBounds = true
-        
         img.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(handleSelectProfileImage)))
         img.isUserInteractionEnabled = true
         
@@ -120,12 +125,12 @@ class LoginController: UIViewController {
         sc.tintColor = UIColor.white
         sc.selectedSegmentIndex = 1
         sc.addTarget(self, action: #selector(handleLoginRegisterChange), for: .valueChanged)
+        
         return sc
     }()
     
     
     func handleLoginRegisterChange() {
-        
         // print(loginRegisterSegmentedControl.selectedSegmentIndex)
         let title = loginRegisterSegmentedControl.titleForSegment(at: loginRegisterSegmentedControl.selectedSegmentIndex)
         
@@ -150,9 +155,7 @@ class LoginController: UIViewController {
         passwordTextFieldHeightAnchor = passwordTextField.heightAnchor.constraint(equalTo: inputContainerView.heightAnchor, multiplier: loginRegisterSegmentedControl.selectedSegmentIndex == 0 ? 1/2 : 1/3)
         passwordTextFieldHeightAnchor?.isActive = true
     }
-    
-    
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -164,14 +167,11 @@ class LoginController: UIViewController {
         view.addSubview(profileImageView)
         view.addSubview(loginRegisterSegmentedControl)
         
-        
         setupInputContainerView()
         setupLoginRegisterButton()
         setupProfileImageView()
         setupLoginRegisterSegmentedControl()
     }
-    
-    
     
     func setupLoginRegisterSegmentedControl() {
         // add constraint of segmented control - x, y, width and height
@@ -180,7 +180,6 @@ class LoginController: UIViewController {
         loginRegisterSegmentedControl.widthAnchor.constraint(equalTo: inputContainerView.widthAnchor).isActive = true
         loginRegisterSegmentedControl.heightAnchor.constraint(equalToConstant: 38).isActive = true
     }
-    
     
     func setupProfileImageView() {
         // add constraint of profile image container - x, y, width and height
@@ -258,15 +257,11 @@ class LoginController: UIViewController {
     override var preferredStatusBarStyle: UIStatusBarStyle {
         return .lightContent
     }
-
-
 }
 
 
 extension UIColor {
-    
     convenience init(r: CGFloat, g: CGFloat, b: CGFloat) {
         self.init(red: r/255, green: g/255, blue: b/255, alpha: 1)
     }
-    
 }

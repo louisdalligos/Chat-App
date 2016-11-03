@@ -34,6 +34,7 @@
 		BF2B42F81DC4C4F60020C543 /* Message.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Message.swift; sourceTree = "<group>"; };
 		BF2B42FB1DC4CD910020C543 /* UserCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserCell.swift; sourceTree = "<group>"; };
 		BF2B93AD1DCB4F56006C2777 /* ChatInputContainerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatInputContainerView.swift; sourceTree = "<group>"; };
+		BF2B93AF1DCB685B006C2777 /* Chat App.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Chat App.entitlements"; sourceTree = "<group>"; };
 		BF7E4F901DBEDFA400AE5BB8 /* Chat App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Chat App.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		BF7E4F931DBEDFA400AE5BB8 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		BF7E4F951DBEDFA400AE5BB8 /* MessagesController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessagesController.swift; sourceTree = "<group>"; };
@@ -110,6 +111,7 @@
 		BF7E4F921DBEDFA400AE5BB8 /* Chat App */ = {
 			isa = PBXGroup;
 			children = (
+				BF2B93AF1DCB685B006C2777 /* Chat App.entitlements */,
 				BFD67F081DC32421008B3291 /* Helpers */,
 				BFA1D84F1DC1A24100D3B410 /* Model */,
 				BF2B42FA1DC4CD650020C543 /* View */,
@@ -190,10 +192,15 @@
 						CreatedOnToolsVersion = 8.0;
 						DevelopmentTeam = 4WV9HZC5SY;
 						ProvisioningStyle = Automatic;
+						SystemCapabilities = {
+							com.apple.Keychain = {
+								enabled = 1;
+							};
+						};
 					};
 				};
 			};
-			buildConfigurationList = BF7E4F8B1DBEDFA400AE5BB8 /* Build configuration list for PBXProject "Chat App" */;
+			buildConfigurationList = BF7E4F8B1DBEDFA400AE5BB8 /* Build configuration list for PBXProject " " */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -413,6 +420,7 @@
 			baseConfigurationReference = 48E7BC713F72B4D66B0E5601 /* Pods-Chat App.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = "Chat App/Chat App.entitlements";
 				DEVELOPMENT_TEAM = 4WV9HZC5SY;
 				INFOPLIST_FILE = "Chat App/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -427,6 +435,7 @@
 			baseConfigurationReference = 8D25B921AFE612D5E9CB9DB2 /* Pods-Chat App.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = "Chat App/Chat App.entitlements";
 				DEVELOPMENT_TEAM = 4WV9HZC5SY;
 				INFOPLIST_FILE = "Chat App/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -439,7 +448,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		BF7E4F8B1DBEDFA400AE5BB8 /* Build configuration list for PBXProject "Chat App" */ = {
+		BF7E4F8B1DBEDFA400AE5BB8 /* Build configuration list for PBXProject " " */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				BF7E4FA01DBEDFA500AE5BB8 /* Debug */,

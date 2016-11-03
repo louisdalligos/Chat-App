@@ -13,7 +13,6 @@ class UserCell: UITableViewCell {
     
     var message: Message? {
         didSet {
-            
             setupNameAndProfileImage()
             
             detailTextLabel?.text = message?.text
@@ -26,16 +25,10 @@ class UserCell: UITableViewCell {
                 
                 timeLabel.text = dateFormatter.string(from: timestampDate as Date)
             }
-            
-            
         }
     }
-    
-    
+
     private func setupNameAndProfileImage() {
-        
-        
-        
         if let id = message?.chatPartnerID() {
             let ref = FIRDatabase.database().reference().child("users").child(id)
             
@@ -48,7 +41,6 @@ class UserCell: UITableViewCell {
                         self.profileImageView.loadImagesUsingCacheWithURLString(urlString: profileImageURL)
                     }
                 }
-                //print(snapshot)
             })
         }
     }
@@ -73,7 +65,6 @@ class UserCell: UITableViewCell {
     
     let timeLabel: UILabel = {
         let label = UILabel()
-        //label.text = "HH:MM:SS"
         label.font = UIFont.systemFont(ofSize: 12)
         label.textColor = UIColor.lightGray
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -96,7 +87,6 @@ class UserCell: UITableViewCell {
         timeLabel.centerYAnchor.constraint(equalTo: self.topAnchor, constant: 30).isActive = true
         timeLabel.widthAnchor.constraint(equalToConstant: 100).isActive = true
         timeLabel.heightAnchor.constraint(equalTo: (textLabel?.heightAnchor)!).isActive = true
-        
     }
     
     required init?(coder aDecoder: NSCoder) {
